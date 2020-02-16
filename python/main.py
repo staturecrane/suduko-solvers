@@ -2,6 +2,7 @@ import numpy as np
 
 from ortools.linear_solver import pywraplp
 
+
 def get_row_binaries(solver, grid_char):
     rows = []
     for i in range(9):
@@ -51,6 +52,7 @@ def main():
         board_values.append(row_values)
 
     print(board_values)
+
 
 if __name__ == "__main__":
     main()
