@@ -33,7 +33,7 @@ def get_row_binaries(solver, grid_char):
     return rows
 
 
-def main():
+def main(starting=[]):
     solver = pywraplp.Solver(
         "sudoku_solver", pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING
     )
@@ -89,6 +89,12 @@ def main():
                     == 1
                 )
 
+    if any(starting):
+        for starting_value in starting:
+            value = starting_value["value"] - 1
+            variable = board[starting_value["grid"]][starting_value["cell"]][value]
+            solver.Add(variable == 1)
+
     solver.Maximize(1)
 
     status = solver.Solve()
@@ -104,7 +110,33 @@ def main():
 
 
 if __name__ == "__main__":
-    board_values = main()
+    starting = [
+        {"grid": 0, "cell": 1, "value": 4},
+        {"grid": 1, "cell": 0, "value": 5},
+        {"grid": 1, "cell": 6, "value": 2},
+        {"grid": 1, "cell": 7, "value": 3},
+        {"grid": 2, "cell": 2, "value": 2},
+        {"grid": 2, "cell": 4, "value": 1},
+        {"grid": 2, "cell": 5, "value": 3},
+        {"grid": 2, "cell": 6, "value": 7},
+        {"grid": 3, "cell": 0, "value": 7},
+        {"grid": 3, "cell": 4, "value": 1},
+        {"grid": 3, "cell": 7, "value": 3},
+        {"grid": 4, "cell": 1, "value": 6},
+        {"grid": 4, "cell": 7, "value": 4},
+        {"grid": 5, "cell": 1, "value": 5},
+        {"grid": 5, "cell": 4, "value": 7},
+        {"grid": 5, "cell": 8, "value": 8},
+        {"grid": 6, "cell": 2, "value": 3},
+        {"grid": 6, "cell": 3, "value": 8},
+        {"grid": 6, "cell": 4, "value": 5},
+        {"grid": 6, "cell": 6, "value": 2},
+        {"grid": 7, "cell": 1, "value": 7},
+        {"grid": 7, "cell": 2, "value": 6},
+        {"grid": 7, "cell": 8, "value": 8},
+        {"grid": 8, "cell": 7, "value": 6},
+    ]
+    board_values = main(starting)
     for i in range(0, 9, 3):
         grids = board_values[i : i + 3]
         for j in range(0, 9, 3):
