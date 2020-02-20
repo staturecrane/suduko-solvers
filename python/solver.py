@@ -139,9 +139,7 @@ if __name__ == "__main__":
         {"grid": 8, "cell": 7, "value": 6},
     ]
     board_values = solver(starting)
-    if status == pywraplp.Solver.OPTIMAL:
-        print(f"STATUS: OPTIMAL")
-        print("-------------------")
+
     for i in range(0, 9, 3):
         grids = board_values[i : i + 3]
         for j in range(0, 9, 3):
